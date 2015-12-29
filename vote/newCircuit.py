@@ -88,7 +88,7 @@ def message_received(client, server, message):
         if ip_count > 100:
             ip_count = 0
             now = datetime.now()
-            ip_set.append('#' + now.strftime('%c'))
+            ip_set.append('#' + now.strftime('%c') + '\n')
 
         server.send_message(client, 'new circuit created')
 
