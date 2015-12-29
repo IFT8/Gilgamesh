@@ -60,7 +60,8 @@ def message_received(client, server, message):
                 exit_fp, exit_nickname = new_circuit.path[-1]
                 exit_desc = controller.get_network_status(exit_fp, None)
                 exit_address = exit_desc.address if exit_desc else 'unknown'
-                if exit_address in ip_set:
+                existed = False
+                if exit_address + '\n' in ip_set:
                     continue
 
                 ip_set.append(exit_address + '\n')
