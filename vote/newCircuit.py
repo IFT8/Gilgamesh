@@ -5,6 +5,7 @@ from websocket_server import WebsocketServer
 
 from time import sleep
 from datetime import datetime
+from random import randrange
 
 import stem
 import atexit
@@ -19,7 +20,7 @@ class Tor:
             print(message)
 
         self.tor = launch_tor(tor_cmd='D:\\Program Files (x86)\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe',
-                torrc_path='D:\\Program Files (x86)\\Tor Browser\\Browser\\TorBrowser\\Data\\Tor\\torrc',
+                torrc_path='torrc',
                 init_msg_handler=init_msg)
         self.controller = Controller.from_port(port = 9151)
         self.controller.authenticate()
@@ -43,13 +44,13 @@ def message_received(client, server, message):
         global pre_listener, ip_count 
         controller = tor.controller
         controller.set_conf('__LeaveStreamsUnattached', '1')
+
         controller.remove_event_listener(pre_listener)
 
         for s in controller.get_streams():
             controller.close_stream(s.id)
             if s.circ_id:
                 controller.close_circuit(s.circ_id, 'ifUnused')
-            print('Stream %s on circuit %s is closed' % (s.id, s.circ_id if s.circ_id else 'unknown'))
 
         print('Wait for creating new circuit')
 
@@ -60,15 +61,19 @@ def message_received(client, server, message):
                 exit_fp, exit_nickname = new_circuit.path[-1]
                 exit_desc = controller.get_network_status(exit_fp, None)
                 exit_address = exit_desc.address if exit_desc else 'unknown'
-                existed = False
+
                 if exit_address + '\n' in ip_set:
+                    controller.close_circuit(new_circuit_id, 'ifUnused')
                     continue
 
                 ip_set.append(exit_address + '\n')
                 print('New circuit %s created. Exit relay address: %s' % (new_circuit.id, exit_address)) 
+                server.send_message(client, 'new circuit created, ip:' + exit_address)
 
                 break
             except stem.CircuitExtensionFailed:
+                continue
+            except stem.ProtocolError:
                 continue
 
         def attach_stream(stream):
@@ -85,13 +90,18 @@ def message_received(client, server, message):
 
         controller.add_event_listener(attach_stream, stem.control.EventType.STREAM)
         pre_listener = attach_stream
+
         ip_count += 1
         if ip_count > 100:
             ip_count = 0
             now = datetime.now()
             ip_set.append('#' + now.strftime('%c') + '\n')
 
-        server.send_message(client, 'new circuit created')
+
+    if 'time out' in message:
+        print('Remove ip: ' + message[13:])
+        ip_set.remove(message[13:] + '\n')
+
 
 server = WebsocketServer(9059)
 server.set_fn_message_received(message_received)

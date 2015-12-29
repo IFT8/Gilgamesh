@@ -7,10 +7,9 @@ socket.onopen = function() {
 }
 socket.onmessage = function(evt) {
     console.log(evt.data);
-    switch(evt.data) {
-        case 'new circuit created':
-            setTimeout(f, 0)
-            break;
+    if (evt.data.indexOf('new circuit created') != -1) {
+        ip = evt.data.substring(24)
+        setTimeout(f, 0)
     }
 }
 
@@ -19,6 +18,7 @@ var startTime = new Date();
 var total = 0;
 var success = 0;
 var failure = 0;
+var ip = null;
 
 var run = true;
 var f = function () {
@@ -28,10 +28,11 @@ var f = function () {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://innoawards.geekpark.net/ranks/408cdd6a-4588-4bcb-af71-cad63a904b24/vote', true);
     xhr.setRequestHeader('X-CSRF-Token',
-            '6Ik/ubG/jTJ4WSaMfGlHWODSXQ0DSwW7z1J/qxFr/H02R/Y+fsJlV5xnQ/IR/7OlBHo6BkyXe7hGAN7jN542Dw==');
+            'su199SchyX8Gi89Mfli6TPGyxYKTOXwUW9A9c3RM1OJsI7Ry6FwhGuK1qjITzk6xFRqiidzlAhfSgpw7UrkekA==');
     xhr.timeout = 11 * 1000;
     xhr.ontimeout = function() {
         console.error('time out');
+        socket.send('time out. ip:' + ip)
         xhr.abort();
     }
     xhr.onreadystatechange = function() {

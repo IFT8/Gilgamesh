@@ -5,11 +5,12 @@ Bridge 106.186.120.153:8443
 Bridge 98.218.141.216:9001
 Bridge 173.198.228.103:443
 ControlPort 9151
-#ExitNodes {us} 
+#ExitNodes {us} {es} {ca} {gb} {fr} {de} {it} {ch} {at} {nl} {be} {lu} {pt} {ie} {dk} {se} {no}
+# {fi} {is} {gr} {au} {nz} {jp} {sg} {kr} {ad} {mt} {mc} {ee} {lv} {sm} {sk} {si} {bm} {ru}
 DataDirectory D:\Program Files (x86)\Tor Browser\Browser\TorBrowser\Data\Tor
 GeoIPFile D:\Program Files (x86)\Tor Browser\Browser\TorBrowser\Data\Tor\geoip
 GeoIPv6File D:\Program Files (x86)\Tor Browser\Browser\TorBrowser\Data\Tor\geoip6
 HiddenServiceStatistics 0
-Socks5Proxy 127.0.0.1:1080
+Socks5Proxy 61.135.217.4:3456
 StrictNodes 1
 UseBridges 1
