@@ -28,11 +28,10 @@ var f = function () {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://innoawards.geekpark.net/ranks/408cdd6a-4588-4bcb-af71-cad63a904b24/vote', true);
     xhr.setRequestHeader('X-CSRF-Token',
-            'su199SchyX8Gi89Mfli6TPGyxYKTOXwUW9A9c3RM1OJsI7Ry6FwhGuK1qjITzk6xFRqiidzlAhfSgpw7UrkekA==');
+            'ajx00qq7Ib6jqavnuupjnsQL00DJlXdsj1itSTiukUxFqwVAre6vMD6Ri25dAw49A+n7wDjXxH9CtxlsZ964pQ==');
     xhr.timeout = 11 * 1000;
     xhr.ontimeout = function() {
         console.error('time out');
-        socket.send('time out. ip:' + ip)
         xhr.abort();
     }
     xhr.onreadystatechange = function() {

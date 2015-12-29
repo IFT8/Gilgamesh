@@ -97,12 +97,6 @@ def message_received(client, server, message):
             now = datetime.now()
             ip_set.append('#' + now.strftime('%c') + '\n')
 
-
-    if 'time out' in message:
-        print('Remove ip: ' + message[13:])
-        ip_set.remove(message[13:] + '\n')
-
-
 server = WebsocketServer(9059)
 server.set_fn_message_received(message_received)
 server.run_forever()
