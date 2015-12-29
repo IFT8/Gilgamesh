@@ -28,7 +28,7 @@ var f = function () {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://innoawards.geekpark.net/ranks/408cdd6a-4588-4bcb-af71-cad63a904b24/vote', true);
     xhr.setRequestHeader('X-CSRF-Token',
-            'ws7CCyZ+n7mHM/WzjzD0T0iNZoZqg0PDBF/+6Srp3ylQCnRMXOxAWrLAgZhZLX1kgL7UcF1Pggse9Ur+c+BKTg==');
+            '6Ik/ubG/jTJ4WSaMfGlHWODSXQ0DSwW7z1J/qxFr/H02R/Y+fsJlV5xnQ/IR/7OlBHo6BkyXe7hGAN7jN542Dw==');
     xhr.timeout = 11 * 1000;
     xhr.ontimeout = function() {
         console.error('time out');

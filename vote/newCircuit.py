@@ -1,9 +1,10 @@
-import datetime
 from stem import Signal
 from stem.process import launch_tor
 from stem.control import Controller
 from websocket_server import WebsocketServer
+
 from time import sleep
+from datetime import datetime
 
 import stem
 import atexit
@@ -39,7 +40,7 @@ ip_count = 100
 # websocket server
 def message_received(client, server, message):
     if 'need new circuit' in message:
-        global pre_listener 
+        global pre_listener, ip_count 
         controller = tor.controller
         controller.set_conf('__LeaveStreamsUnattached', '1')
         controller.remove_event_listener(pre_listener)
@@ -87,7 +88,7 @@ def message_received(client, server, message):
         if ip_count > 100:
             ip_count = 0
             now = datetime.now()
-            ip_set.append(now.strftime('%c'))
+            ip_set.append('#' + now.strftime('%c'))
 
         server.send_message(client, 'new circuit created')
 
