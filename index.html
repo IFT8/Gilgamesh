@@ -19,16 +19,34 @@
         result += num + '.jpg';
         return result;
     }
-    img.onclick = function() {
+    function nextImg() {
         var reg = /\/([0-9].+)\.jpg$/
         var src = parseInt(img.src.match(reg)[1]);
         src += 1;
         img.src = getPath(src);
         window.scrollTo(0, 0);
-    };
+    }
+    function preImg() {
+        var reg = /\/([0-9].+)\.jpg$/
+        var src = parseInt(img.src.match(reg)[1]);
+        src -= 1;
+        img.src = getPath(src);
+        window.scrollTo(0, 0);
+    }
+    img.onclick = nextImg;
     input.onchange = function(evt) {
         img.src = getPath(this.value);
         window.scrollTo(0, 0);
+    }
+    window.onkeydown = function(key) {
+        switch(key.keyCode) {
+            case 39: // right
+                nextImg();
+                break;
+            case 37: // left
+                preImg();
+                break;
+        }
     }
 </script>
 </html>
