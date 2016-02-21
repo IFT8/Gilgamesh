@@ -4,13 +4,14 @@
     <meta charset="utf-8">
 </head>
 <body>
-<img style="cursor: pointer" id="image" src="001.jpg" />
+<img style="cursor: pointer; width: 100%" id="image" src="001.jpg" />
 <input type="text" id="input">
 </body>
 <script>
     var totalLength = 3;
     var img = document.getElementById('image'),
-        input = document.getElementById('input');
+        input = document.getElementById('input'),
+        reg = /\/([0-9].+)\.jpg$/;
     function getPath(num) {
         var result = '';
         for (var i = 0; i < totalLength - num.toString().length; i++) {
@@ -20,16 +21,16 @@
         return result;
     }
     function nextImg() {
-        var reg = /\/([0-9].+)\.jpg$/
         var src = parseInt(img.src.match(reg)[1]);
         src += 1;
+        input.value = src;
         img.src = getPath(src);
         window.scrollTo(0, 0);
     }
     function preImg() {
-        var reg = /\/([0-9].+)\.jpg$/
         var src = parseInt(img.src.match(reg)[1]);
         src -= 1;
+        input.value = src;
         img.src = getPath(src);
         window.scrollTo(0, 0);
     }
