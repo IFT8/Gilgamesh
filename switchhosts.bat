@@ -1,0 +1,2 @@
+py "switchhosts.py"
+pause
