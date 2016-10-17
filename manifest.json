@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+    "name": "flush host",
+    "version": "0.0.1",
+    "description": "flush dns cache and socket pool in chrome when host has been changed",
+    "author": "Acceyuriko",
+    "icons": {
+        "64": "icon64.png"
+    },
+    "background": {
+        "scripts": ["onClick.js"]
+    },
+    "browser_action": {
+        "default_icon": "icon64.png"
+    },
+    "permissions": [
+        "tabs",
+        "chrome://net-internals/#dns"
+    ]
+}
